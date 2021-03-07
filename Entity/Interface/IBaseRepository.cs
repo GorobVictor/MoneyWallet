@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entity.Interface
+{
+    public interface IBaseRepository<TEntity>
+    {
+        Task<TEntity> AddAsync(TEntity entity);
+        Task<List<TEntity>> AddAsync(List<TEntity> entity);
+        Task<TEntity> GetFirst(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        Task UpdateAsync(List<TEntity> entities);
+    }
+}
