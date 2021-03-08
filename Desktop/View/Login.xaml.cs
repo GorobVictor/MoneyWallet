@@ -1,19 +1,7 @@
-﻿using Entity.Controller;
-using Entity.Interface;
-using Entity.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using RestSharp;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Desktop.View
 {
@@ -22,8 +10,8 @@ namespace Desktop.View
     /// </summary>
     public partial class Login : Window
     {
-        IUserRepository Users { get; set; } = new UserRepository(ConfigurationManager.ConnectionStrings["default"].ConnectionString);
-
+        public static RestClient Client { get; set; } = new RestClient("https://localhost:44312/api");
+        public static string Token { get; set; }
         public Login()
         {
             InitializeComponent();
@@ -54,7 +42,11 @@ namespace Desktop.View
                 return;
             }
 
-            var user = await Users.GetUserByLoginAndPasswordAsync(new User(txtbox_Login.Text, txtbox_Password.Text));
+            var request = new RestRequest("login", RestSharp.DataFormat.Json)
+                .AddJsonBody(new { login = txtbox_Login.Text, password = txtbox_Password.Text });
+
+            var response = await Client.PostAsync<>(request);
+
 
             if (user != null)
             {

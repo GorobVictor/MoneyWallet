@@ -7,7 +7,7 @@ namespace WebApi
     {
         public const string ISSUER = "MoneyWallet";
         public const string AUDIENCE = "MoneyWalletClient";
-        const string KEY = "secretkey";
+        const string KEY = "secretkey.123456789123456789";
         public const int LIFETIME = 1;
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {

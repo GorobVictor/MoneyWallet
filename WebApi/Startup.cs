@@ -52,12 +52,10 @@ namespace WebApi
 
             services.Scan(scan =>
                scan.FromAssemblyDependencies(Assembly.Load("Entity"))
-                   .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Repository") ||
-                        t.Name.EndsWith("Service")))
+                   .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Repository") &&
+                        t.Namespace == "Entity.Controller"))
                    .AsImplementedInterfaces()
                    .WithScopedLifetime());
-
-            //services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers();
 
@@ -68,12 +66,31 @@ namespace WebApi
                     Title = "Web api",
                     Version = "version 1"
                 });
+                x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                x.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                          Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          }
+                        },
+                        new string[] { }
+                    }
+                });
             });
 
             services.AddDbContext<MoneyWalletContext>(x => x.UseSqlServer(Configuration["ConnectionString:default"]));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

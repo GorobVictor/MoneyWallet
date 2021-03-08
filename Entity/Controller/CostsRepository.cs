@@ -16,9 +16,16 @@ namespace Entity.Controller
 
         }
 
-        public async Task<List<Costs>> GetCostsAsync(int userId, WasteType type)
+        public async Task<List<Costs>> GetCostsAsync(int userId, WasteType type = 0)
         {
-            return await GetAsync(x => x.CreatedBy == userId && x.WasteType == type);
+            if (type != 0)
+            {
+                return await GetAsync(x => x.CreatedBy == userId && x.WasteType == type);
+            }
+            else
+            {
+                return await GetAsync(x => x.CreatedBy == userId);
+            }
         }
 
         public async Task UpdateCostsAsync(List<Costs> items)

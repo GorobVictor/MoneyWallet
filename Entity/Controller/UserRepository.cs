@@ -1,6 +1,7 @@
 ﻿
 using Entity.Interface;
 using Entity.Model;
+using Entity.Model.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,14 @@ namespace Entity.Controller
         }
 
         public async Task<User> GetUserByLoginAndPasswordAsync(User user)
+        {
+            return await GetFirst(x =>
+                    x.Login.ToLower() == user.Login.ToLower() &&
+                    x.Password.ToLower() == user.Password.ToLower()
+                    );
+        }
+
+        public async Task<User> GetUserByLoginAndPasswordAsync(IUserAuth user)
         {
             return await GetFirst(x =>
                     x.Login.ToLower() == user.Login.ToLower() &&

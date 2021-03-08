@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entity.Model.Enum
+﻿namespace Core.Model.Enum
 {
     public enum TypeAnalytics : byte
     {
