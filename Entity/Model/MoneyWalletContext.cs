@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Entity.Model
 {
-    internal class MoneyWalletContext : DbContext
+    public class MoneyWalletContext : DbContext
     {
         private string ConnectionString { get; set; }
         public MoneyWalletContext(string connectionString)
