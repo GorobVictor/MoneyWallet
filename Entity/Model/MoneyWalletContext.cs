@@ -13,6 +13,23 @@ namespace Entity.Model
         public MoneyWalletContext(string connectionString)
         {
             ConnectionString = connectionString;
+
+            UpdateBase();
+        }
+        public MoneyWalletContext(DbContextOptions<MoneyWalletContext> options)
+            : base(options)
+        {
+            UpdateBase();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!string.IsNullOrEmpty(ConnectionString))
+                optionsBuilder.UseSqlServer(ConnectionString);
+        }
+
+        void UpdateBase()
+        {
             Database.EnsureDeleted();
             Database.EnsureCreated();
 
@@ -20,7 +37,7 @@ namespace Entity.Model
 
             SaveChanges();
 
-            var user = Users.FirstOrDefault(x => x.Login == "Gorob");
+            var user = Users.FirstOrDefault(x => x.Login == "Admin");
 
             Costs.Add(new Costs()
             {
@@ -76,11 +93,6 @@ namespace Entity.Model
             });
 
             SaveChanges();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         public DbSet<User> Users { get; set; }

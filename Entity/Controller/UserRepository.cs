@@ -12,8 +12,8 @@ namespace Entity.Controller
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(string connectionString)
-            : base(connectionString)
+        public UserRepository(MoneyWalletContext context)
+            : base(context)
         {
 
         }

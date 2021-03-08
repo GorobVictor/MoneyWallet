@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity.Model.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace Entity.Interface
 {
     public interface IBaseRepository<TEntity>
+        where TEntity : Base
     {
         Task<TEntity> AddAsync(TEntity entity);
         Task<List<TEntity>> AddAsync(List<TEntity> entity);

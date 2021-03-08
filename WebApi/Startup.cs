@@ -13,6 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Reflection;
+using Entity.Interface;
+using Entity.Controller;
 
 namespace WebApi
 {
@@ -44,8 +49,19 @@ namespace WebApi
                             ValidateIssuerSigningKey = true,
                         };
                     });
+
+            services.Scan(scan =>
+               scan.FromAssemblyDependencies(Assembly.Load("Entity"))
+                   .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Repository") ||
+                        t.Name.EndsWith("Service")))
+                   .AsImplementedInterfaces()
+                   .WithScopedLifetime());
+
+            //services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddControllers();
-            services.AddSwaggerGen(x=>
+
+            services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("version 1", new OpenApiInfo()
                 {
@@ -53,7 +69,8 @@ namespace WebApi
                     Version = "version 1"
                 });
             });
-            services.AddDbContext<MoneyWalletContext>(x => x.UseSqlServer(Configuration.GetConnectionString("default")));
+
+            services.AddDbContext<MoneyWalletContext>(x => x.UseSqlServer(Configuration["ConnectionString:default"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,8 +80,10 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Web api version 1"));
+                app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/version 1/swagger.json", "Web api version 1"));
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

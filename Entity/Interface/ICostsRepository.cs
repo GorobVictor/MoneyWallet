@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Interface
 {
-    public interface ICostsRepository
+    public interface ICostsRepository: IBaseRepository<Costs>
     {
         Task<List<Costs>> GetCostsAsync(int userId, WasteType type);
         Task UpdateCostsAsync(List<Costs> items);

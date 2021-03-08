@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Interface
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
         Task<bool> CheckLoginAndPasswordAsync(User user);
         Task<User> GetUserByLoginAndPasswordAsync(User user);

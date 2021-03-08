@@ -10,8 +10,8 @@ namespace Entity.Controller
 {
     public class CostsRepository : BaseRepository<Costs>, ICostsRepository
     {
-        public CostsRepository(string connectionString)
-            : base(connectionString)
+        public CostsRepository(MoneyWalletContext context)
+            : base(context)
         {
 
         }

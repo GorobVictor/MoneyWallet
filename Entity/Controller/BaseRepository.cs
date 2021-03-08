@@ -15,9 +15,12 @@ namespace Entity.Controller
         where TEntity : Base
     {
         internal MoneyWalletContext Context { get; }
-        protected BaseRepository(string connectionString)
+
+        bool Disposed { get; set; }
+
+        protected BaseRepository(MoneyWalletContext context)
         {
-            this.Context = new MoneyWalletContext(connectionString);
+            this.Context = context;
 
             Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
@@ -62,6 +65,25 @@ namespace Entity.Controller
             Context.UpdateRange(entities);
 
             await Context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            this.DisposeObject(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void DisposeObject(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                if (disposing)
+                {
+                    this.Context.Dispose();
+                }
+
+                this.Disposed = true;
+            }
         }
     }
 }
