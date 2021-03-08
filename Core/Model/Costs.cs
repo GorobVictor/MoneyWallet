@@ -1,11 +1,9 @@
-﻿using Entity.Model.Abstract;
-using Entity.Model.Enum;
+﻿using Core.Model.Abstract;
+using Core.Model.Enum;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
-namespace Entity.Model
+namespace Core.Model
 {
     public class Costs : Date
     {

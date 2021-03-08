@@ -1,18 +1,8 @@
-﻿using Entity.Controller;
-using Entity.Interface;
-using Entity.Model;
-using System;
+﻿using Core.Model;
+using Desktop.Utils;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Desktop.View
 {
@@ -21,7 +11,6 @@ namespace Desktop.View
     /// </summary>
     public partial class Register : Window
     {
-        IUserRepository Users { get; set; } = new UserRepository(ConfigurationManager.ConnectionStrings["default"].ConnectionString);
 
         public Register()
         {
@@ -63,13 +52,13 @@ namespace Desktop.View
                 return;
             }
 
-            if(await Users.CheckLoginAsync(txtbox_Login.Text))
+            if (await MyRestClient.CheckLoginAsync(txtbox_Login.Text))
             {
                 MessageBox.Show("Такой логин существует", "Ошибка");
                 return;
             }
 
-            await Users.AddUserAsync(new User(txtbox_Name.Text, txtbox_Surname.Text, txtbox_Login.Text, txtbox_Password.Text, txtbox_Email.Text, txtbox_Phone.Text));
+            await MyRestClient.AddUserAsync(new User(txtbox_Name.Text, txtbox_Surname.Text, txtbox_Login.Text, txtbox_Password.Text, txtbox_Email.Text, txtbox_Phone.Text));
 
             new Login().Show();
 

@@ -1,4 +1,5 @@
-﻿using Entity.Interface;
+﻿using Core.Model;
+using Entity.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,25 @@ namespace WebApi.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCosts()
+        public async Task<IActionResult> Get()
         {
             return Ok(await CostsRepository.GetCostsAsync(this.GetUserId()));
+        }
+
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> Add([FromBody] List<Costs> costs)
+        {
+            await CostsRepository.AddCostsAsync(costs);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> Update([FromBody] List<Costs> costs)
+        {
+            await CostsRepository.UpdateCostsAsync(costs);
+            return Ok();
         }
     }
 }

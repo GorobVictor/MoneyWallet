@@ -1,12 +1,10 @@
 ﻿using Entity.Interface;
-using Entity.Model;
-using Entity.Model.Abstract;
+using Core.Model.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Entity.Controller

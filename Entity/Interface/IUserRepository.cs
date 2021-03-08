@@ -1,8 +1,5 @@
-﻿using Entity.Model;
-using Entity.Model.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Core.Model;
+using Core.Model.Interface;
 using System.Threading.Tasks;
 
 namespace Entity.Interface
@@ -12,6 +9,7 @@ namespace Entity.Interface
         Task<bool> CheckLoginAndPasswordAsync(User user);
         Task<User> GetUserByLoginAndPasswordAsync(User user);
         Task<User> GetUserByLoginAndPasswordAsync(IUserAuth user);
+        Task<User> GetUserByIdAsync(int userId);
         Task<bool> CheckLoginAsync(string login);
         Task AddUserAsync(User user);
     }

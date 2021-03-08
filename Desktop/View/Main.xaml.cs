@@ -1,21 +1,14 @@
-﻿using Entity.Controller;
-using Entity.Interface;
-using Entity.Model;
-using Entity.Model.Enum;
+﻿using Core.Model;
+using Core.Model.Enum;
+using Desktop.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Desktop.View
 {
@@ -24,8 +17,6 @@ namespace Desktop.View
     /// </summary>
     public partial class Main : Window
     {
-        IUserRepository Users { get; set; } = new UserRepository(ConfigurationManager.ConnectionStrings["default"].ConnectionString);
-        ICostsRepository Costs { get; set; } = new CostsRepository(ConfigurationManager.ConnectionStrings["default"].ConnectionString);
         private User User { get; set; }
 
         public Main(User user)
@@ -57,40 +48,40 @@ namespace Desktop.View
 
         private async void btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            var Subscription = grid_Subscription.ItemsSource as List<Costs>;
-            var OnceOnly = grid_OnceOnly.ItemsSource as List<Costs>;
+            Enabled(false);
+
+            var subscription = grid_Subscription.ItemsSource as List<Costs>;
+            var onceOnly = grid_OnceOnly.ItemsSource as List<Costs>;
+            var sumList = subscription.Concat(onceOnly).ToList();
+
             List<Costs> newList = new List<Costs>();
 
-            foreach (var newObj in Subscription)
+            for (int i = 0; i < sumList.Count(); i++)
             {
-                if (newObj.Id == 0)
+                if (sumList[i].Id == 0)
                 {
-                    newList.Add(new Costs(newObj, User.Id));
+                    sumList[i] = new Costs(sumList[i], User.Id);
                 }
             }
 
-            foreach (var newObj in OnceOnly)
-            {
-                if (newObj.Id == 0)
-                {
-                    newList.Add(new Costs(newObj, User.Id));
-                }
-            }
+            await MyRestClient.UpdateCostsAsync(sumList);
 
-            if (newList.Count > 0)
-            {
-                await Costs.AddCostsAsync(newList);
-            }
-
-            await Costs.UpdateCostsAsync(Subscription);
-            await Costs.UpdateCostsAsync(grid_OnceOnly.ItemsSource as List<Costs>);
             btn_Update_Click(sender, e);
+
+            Enabled(true);
         }
 
         private async void btn_Update_Click(object sender, RoutedEventArgs e)
         {
-            grid_Subscription.ItemsSource = await Costs.GetCostsAsync(User.Id, WasteType.Subscription);
-            grid_OnceOnly.ItemsSource = await Costs.GetCostsAsync(User.Id, WasteType.OnceOnly);
+            var response = await MyRestClient.GetCostsAsync();
+            grid_Subscription.ItemsSource = response.Where(x => x.WasteType == WasteType.Subscription).ToList();
+            grid_OnceOnly.ItemsSource = response.Where(x => x.WasteType == WasteType.OnceOnly).ToList();
+        }
+
+        private void Enabled(bool isEnabled)
+        {
+            grid_OnceOnly.IsEnabled = isEnabled;
+            grid_Subscription.IsEnabled = isEnabled;
         }
     }
 }

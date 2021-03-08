@@ -1,6 +1,6 @@
 ﻿using Entity.Interface;
-using Entity.Model;
-using Entity.Model.Enum;
+using Core.Model;
+using Core.Model.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;

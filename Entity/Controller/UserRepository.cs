@@ -1,12 +1,6 @@
-﻿
-using Entity.Interface;
-using Entity.Model;
-using Entity.Model.Interface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Entity.Interface;
+using Core.Model;
+using Core.Model.Interface;
 using System.Threading.Tasks;
 
 namespace Entity.Controller
@@ -44,6 +38,11 @@ namespace Entity.Controller
                     x.Login.ToLower() == user.Login.ToLower() &&
                     x.Password.ToLower() == user.Password.ToLower()
                     );
+        }
+
+        public async Task<User> GetUserByIdAsync(int userId)
+        {
+            return await GetFirst(x => x.Id == userId);
         }
 
         public async Task<bool> CheckLoginAsync(string login)

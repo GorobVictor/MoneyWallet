@@ -1,4 +1,8 @@
-﻿using RestSharp;
+﻿using Core.Model;
+using Core.Model.Dto;
+using Desktop.Utils;
+using RestSharp;
+using RestSharp.Authenticators;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +14,6 @@ namespace Desktop.View
     /// </summary>
     public partial class Login : Window
     {
-        public static RestClient Client { get; set; } = new RestClient("https://localhost:44312/api");
-        public static string Token { get; set; }
         public Login()
         {
             InitializeComponent();
@@ -42,14 +44,12 @@ namespace Desktop.View
                 return;
             }
 
-            var request = new RestRequest("login", RestSharp.DataFormat.Json)
-                .AddJsonBody(new { login = txtbox_Login.Text, password = txtbox_Password.Text });
+            var response = await MyRestClient.LoginAsync(new UserAuth(txtbox_Login.Text, txtbox_Password.Text));
 
-            var response = await Client.PostAsync<>(request);
-
-
-            if (user != null)
+            if (response != null)
             {
+                var user = await MyRestClient.GetUserAsync();
+
                 new Main(user).Show();
                 this.Close();
             }

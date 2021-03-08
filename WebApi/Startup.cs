@@ -1,4 +1,3 @@
-using Entity.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +17,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using Entity.Interface;
 using Entity.Controller;
+using Entity;
 
 namespace WebApi
 {

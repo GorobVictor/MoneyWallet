@@ -1,6 +1,8 @@
-﻿using Entity.Interface;
-using Entity.Model;
-using Entity.Model.Interface;
+﻿using Core.Model;
+using Core.Model.Dto;
+using Core.Model.Interface;
+using Entity.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,12 +10,13 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebApi.Model.Dto;
+using WebApi.Utils;
 
 namespace WebApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private IUserRepository UserRepository { get; set; }
@@ -25,7 +28,14 @@ namespace WebApi.Controller
             UserRepository = userRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await UserRepository.GetUserByIdAsync(this.GetUserId()));
+        }
+
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Token([FromBody] UserAuth user)
         {
             var identity = await GetIdentityAsync(user);
@@ -46,11 +56,41 @@ namespace WebApi.Controller
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            return Ok(new
+            return Ok(new GetTokenResult()
             {
-                token = encodedJwt,
-                login = identity.Name
+                Token = encodedJwt,
+                Login = identity.Name
             });
+        }
+
+        [HttpPost]
+        [Route("add")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Add([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            await UserRepository.AddAsync(user);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("check")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckLogin(string login)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var response = await UserRepository.CheckLoginAsync(login);
+
+            return Ok(response);
         }
 
         private async Task<ClaimsIdentity> GetIdentityAsync(IUserAuth user)

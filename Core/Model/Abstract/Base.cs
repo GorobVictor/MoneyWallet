@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
-namespace Entity.Model.Abstract
+﻿namespace Core.Model.Abstract
 {
     public class Base
     {

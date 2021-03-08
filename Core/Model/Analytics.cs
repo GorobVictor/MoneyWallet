@@ -1,10 +1,7 @@
-﻿using Entity.Model.Abstract;
-using Entity.Model.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Core.Model.Abstract;
+using Core.Model.Enum;
 
-namespace Entity.Model
+namespace Core.Model
 {
     public class Analytics: Date
     {

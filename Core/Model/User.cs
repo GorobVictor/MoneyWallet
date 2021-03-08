@@ -1,16 +1,18 @@
-﻿using Core.Interface;
-using Entity.Model.Abstract;
-using Entity.Model.Enum;
+﻿using Core.Model.Abstract;
+using Core.Model.Enum;
+using Core.Model.Interface;
 
-namespace Entity.Model
+namespace Core.Model
 {
     public class User : Base, IUserAuth
     {
         public User()
         {
+            Role = Role.User;
         }
 
         public User(string login, string password)
+            : this()
         {
             Login = login;
             Password = password;

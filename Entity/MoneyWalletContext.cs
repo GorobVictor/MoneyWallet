@@ -1,11 +1,10 @@
-﻿using Entity.Model.Enum;
+﻿using Core.Model;
+using Core.Model.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Entity.Model
+namespace Entity
 {
     public class MoneyWalletContext : DbContext
     {
@@ -14,12 +13,12 @@ namespace Entity.Model
         {
             ConnectionString = connectionString;
 
-            UpdateBase();
+            //UpdateBase();
         }
         public MoneyWalletContext(DbContextOptions<MoneyWalletContext> options)
             : base(options)
         {
-            UpdateBase();
+            //UpdateBase();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

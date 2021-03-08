@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Entity.Model.Abstract
+namespace Core.Model.Abstract
 {
     public class Date : Base
     {
