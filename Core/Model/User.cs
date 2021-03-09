@@ -1,6 +1,7 @@
 ﻿using Core.Model.Abstract;
 using Core.Model.Enum;
 using Core.Model.Interface;
+using System.Collections.Generic;
 
 namespace Core.Model
 {
@@ -18,13 +19,14 @@ namespace Core.Model
             Password = password;
         }
 
-        public User(string name, string surname, string login, string password, string email, string phone)
+        public User(string name, string surname, string login, string password, string email, string phone, Currency currency)
             : this(login, password)
         {
             Name = name;
             Surname = surname;
             Email = email;
             Phone = phone;
+            Currency = currency;
         }
 
         public string Name { get; set; }
@@ -34,6 +36,8 @@ namespace Core.Model
         public string Email { get; set; }
         public string Phone { get; set; }
         public Role Role { get; set; }
+        public List<Salary> Salary { get; set; }
+        public Currency Currency { get; set; }
         public override string ToString()
         {
             return $"{Name} {Surname}";

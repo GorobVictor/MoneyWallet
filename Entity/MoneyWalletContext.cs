@@ -18,7 +18,7 @@ namespace Entity
         public MoneyWalletContext(DbContextOptions<MoneyWalletContext> options)
             : base(options)
         {
-            //UpdateBase();
+            UpdateBase();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,7 +32,7 @@ namespace Entity
             Database.EnsureDeleted();
             Database.EnsureCreated();
 
-            Users.Add(new User("Name", "Surname", "Admin", "admin", "gmail.com", "380636655888"));
+            Users.Add(new User("Name", "Surname", "Admin", "admin", "gmail.com", "380636655888", Currency.UAH));
 
             SaveChanges();
 
@@ -91,11 +91,15 @@ namespace Entity
                 Deleted = false
             });
 
+            Salary.AddAsync(new Salary("ZP", "месячная зарплата", 1000, Currency.USD, SalaryType.Fixed, user.Id));
+            Salary.AddAsync(new Salary("Parser", "оплата за проект", 3000, Currency.UAH, SalaryType.OnceOnly, user.Id));
+
             SaveChanges();
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Costs> Costs { get; set; }
         public DbSet<Analytics> Analytics { get; set; }
+        public DbSet<Salary> Salary { get; set; }
     }
 }

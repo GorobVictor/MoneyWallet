@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktop.View"
         mc:Ignorable="d"
-        Title="Register" Height="500" Width="500" MinHeight="500" MaxHeight="700" MinWidth="500" MaxWidth="800" WindowStartupLocation="CenterScreen">
+        Title="Register" Height="550" Width="500" MinHeight="550" MaxHeight="700" MinWidth="500" MaxWidth="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -26,7 +27,8 @@
         <TextBox x:Name="txtbox_Phone" Margin="0,9,0,7" Text="Номер телефона" TextWrapping="Wrap" Cursor="IBeam" MinWidth="260" MaxWidth="400" Height="28" Grid.ColumnSpan="2" Grid.Row="5" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
         <TextBox x:Name="txtbox_Password" Margin="0,9,0,7" Text="Пароль" TextWrapping="Wrap" Cursor="IBeam" MinWidth="260" MaxWidth="400" Height="28" Grid.ColumnSpan="2" Grid.Row="6" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
         <TextBox x:Name="txtbox_RepeatPassword" Margin="0,9,0,7" Text="Повторите пароль" TextWrapping="Wrap" Cursor="IBeam" MinWidth="260" MaxWidth="402" Height="28" Grid.ColumnSpan="2" Grid.Row="7" GotFocus="MyGotFocus" LostFocus="MyLostFocus"/>
-        <Button x:Name="btn_Registration" Content="Зарегистрироваться" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="8" VerticalAlignment="Stretch" Grid.Column="1" MinWidth="165" MaxWidth="400" Click="btn_Registration_Click" Cursor="Hand"/>
+        <ComboBox x:Name="combo_Currency" Margin="0,9,0,7" MinWidth="260" MaxWidth="402" Height="28" Grid.ColumnSpan="2" Grid.Row="8"/>
+        <Button x:Name="btn_Registration" Content="Зарегистрироваться" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="9" VerticalAlignment="Stretch" Grid.Column="1" MinWidth="165" MaxWidth="400" Click="btn_Registration_Click" Cursor="Hand"/>
 
     </Grid>
 </Window>

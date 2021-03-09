@@ -19,10 +19,12 @@ namespace Core.Model
             Currency = currency;
             WasteType = wasteType;
 
+            var now = DateTime.Now;
+
             CreatedBy = userId;
-            CreatedWhen = DateTime.Now;
+            CreatedWhen = now;
             UpdatedBy = userId;
-            UpdatedWhen = DateTime.Now;
+            UpdatedWhen = now;
         }
 
         public Costs(Costs costs, int userId)

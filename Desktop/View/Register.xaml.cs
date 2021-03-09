@@ -1,6 +1,9 @@
 ﻿using Core.Model;
+using Core.Model.Enum;
 using Desktop.Utils;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,6 +18,8 @@ namespace Desktop.View
         public Register()
         {
             InitializeComponent();
+            combo_Currency.ItemsSource = Enum.GetValues(typeof(Currency)).Cast<Currency>();
+            combo_Currency.SelectedIndex = 0;
         }
 
         private void MyGotFocus(object sender, RoutedEventArgs e)
@@ -58,7 +63,7 @@ namespace Desktop.View
                 return;
             }
 
-            await MyRestClient.AddUserAsync(new User(txtbox_Name.Text, txtbox_Surname.Text, txtbox_Login.Text, txtbox_Password.Text, txtbox_Email.Text, txtbox_Phone.Text));
+            await MyRestClient.AddUserAsync(new User(txtbox_Name.Text, txtbox_Surname.Text, txtbox_Login.Text, txtbox_Password.Text, txtbox_Email.Text, txtbox_Phone.Text, (Currency)combo_Currency.SelectedItem ));
 
             new Login().Show();
 

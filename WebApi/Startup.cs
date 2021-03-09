@@ -57,7 +57,9 @@ namespace WebApi
                    .AsImplementedInterfaces()
                    .WithScopedLifetime());
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(x =>
             {
