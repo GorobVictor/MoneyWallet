@@ -1,8 +1,10 @@
 ﻿using Core.Model.Abstract;
+using Core.Model.Dto;
 using Core.Model.Enum;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Core.Model
@@ -13,21 +15,40 @@ namespace Core.Model
         {
         }
 
-        public Salary(string name, string description, double value, Currency currency, SalaryType salaryType, int userId)
+        public Salary(Salary salary, GetSetSalary newSalary, int userUpdated)
         {
-            Name = name;
-            Description = description;
-            Value = value;
-            Currency = currency;
-            SalaryType = salaryType;
-            UserId = userId;
-
             var now = DateTime.Now;
 
-            CreatedWhen = now;
-            CreatedBy = userId;
+            Id = newSalary.Id;
+            Name = newSalary.Name;
+            Description = newSalary.Description;
+            Value = newSalary.Value;
+            Currency = newSalary.Currency;
+            SalaryType = newSalary.SalaryType;
+            UserId = newSalary.UserId;
+            CreatedBy = salary != null ? salary.CreatedBy : userUpdated;
+            CreatedWhen = salary != null ? salary.CreatedWhen : now;
+
+            UpdatedBy = userUpdated;
             UpdatedWhen = now;
-            UpdatedBy = userId;
+        }
+
+        public Salary(GetSetSalary newSalary, int userUpdated)
+        {
+            var now = DateTime.Now;
+
+            Id = newSalary.Id;
+            Name = newSalary.Name;
+            Description = newSalary.Description;
+            Value = newSalary.Value;
+            Currency = newSalary.Currency;
+            SalaryType = newSalary.SalaryType;
+            UserId = newSalary.UserId;
+            CreatedBy = userUpdated;
+            CreatedWhen = now;
+
+            UpdatedBy = userUpdated;
+            UpdatedWhen = now;
         }
 
         public string Name { get; set; }

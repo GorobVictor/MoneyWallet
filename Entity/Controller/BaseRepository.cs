@@ -23,9 +23,6 @@ namespace Entity.Controller
             Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             Context.ChangeTracker.LazyLoadingEnabled = false;
-
-            Context.ChangeTracker.Clear();
-
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
@@ -46,9 +43,14 @@ namespace Entity.Controller
             return entity;
         }
 
-        public async Task<TEntity> GetFirst(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await Context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(predicate);
+        }
+
+        public TEntity GetFirst(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().AsNoTracking().FirstOrDefault(predicate);
         }
 
         public async Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
@@ -58,11 +60,21 @@ namespace Entity.Controller
 
         public async Task UpdateAsync(List<TEntity> entities)
         {
-            Context.ChangeTracker.Clear();
+            DetachArray(entities);
 
             Context.UpdateRange(entities);
 
             await Context.SaveChangesAsync();
+        }
+
+        public void DetachArray(IEnumerable<object> objects)
+        {
+            objects.ToList().ForEach(obj => Detach(obj));
+        }
+
+        public void Detach(object obj)
+        {
+            Context.Entry(obj).State = EntityState.Detached;
         }
 
         public void Dispose()

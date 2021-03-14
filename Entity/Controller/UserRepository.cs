@@ -15,7 +15,7 @@ namespace Entity.Controller
 
         public async Task<bool> CheckLoginAndPasswordAsync(User user)
         {
-            if (await GetFirst(x =>
+            if (await GetFirstAsync(x =>
                     x.Login.ToLower() == user.Login.ToLower() &&
                     x.Password.ToLower() == user.Password.ToLower()
                     ) == null)
@@ -26,7 +26,7 @@ namespace Entity.Controller
 
         public async Task<User> GetUserByLoginAndPasswordAsync(User user)
         {
-            return await GetFirst(x =>
+            return await GetFirstAsync(x =>
                     x.Login.ToLower() == user.Login.ToLower() &&
                     x.Password.ToLower() == user.Password.ToLower()
                     );
@@ -34,20 +34,20 @@ namespace Entity.Controller
 
         public async Task<User> GetUserByLoginAndPasswordAsync(IUserAuth user)
         {
-            return await GetFirst(x =>
+            return await GetFirstAsync(x =>
                     x.Login.ToLower() == user.Login.ToLower() &&
-                    x.Password.ToLower() == user.Password.ToLower()
+                    x.Password == user.Password
                     );
         }
 
         public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await GetFirst(x => x.Id == userId);
+            return await GetFirstAsync(x => x.Id == userId);
         }
 
         public async Task<bool> CheckLoginAsync(string login)
         {
-            if (await GetFirst(x =>
+            if (await GetFirstAsync(x =>
                     x.Login.ToLower() == login.ToLower()
                     ) == null)
                 return false;

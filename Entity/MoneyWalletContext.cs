@@ -18,7 +18,7 @@ namespace Entity
         public MoneyWalletContext(DbContextOptions<MoneyWalletContext> options)
             : base(options)
         {
-            UpdateBase();
+            //UpdateBase();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,61 +38,13 @@ namespace Entity
 
             var user = Users.FirstOrDefault(x => x.Login == "Admin");
 
-            Costs.Add(new Costs()
-            {
-                CreatedBy = user.Id,
-                CreatedWhen = DateTime.Now,
-                UpdatedBy = user.Id,
-                UpdatedWhen = DateTime.Now,
-                Name = "YouTube",
-                Description = "ютуб",
-                Value = 6,
-                Currency = Currency.USD,
-                WasteType = WasteType.Subscription,
-                Deleted = false
-            });
-            Costs.Add(new Costs()
-            {
-                CreatedBy = user.Id,
-                CreatedWhen = DateTime.Now,
-                UpdatedBy = user.Id,
-                UpdatedWhen = DateTime.Now,
-                Name = "Dezzer",
-                Description = "дизер",
-                Value = 6,
-                Currency = Currency.EUR,
-                WasteType = WasteType.Subscription,
-                Deleted = false
-            });
-            Costs.Add(new Costs()
-            {
-                CreatedBy = user.Id,
-                CreatedWhen = DateTime.Now,
-                UpdatedBy = user.Id,
-                UpdatedWhen = DateTime.Now,
-                Name = "Сильпо",
-                Description = "продукты",
-                Value = 550,
-                Currency = Currency.UAH,
-                WasteType = WasteType.OnceOnly,
-                Deleted = false
-            });
-            Costs.Add(new Costs()
-            {
-                CreatedBy = user.Id,
-                CreatedWhen = DateTime.Now,
-                UpdatedBy = user.Id,
-                UpdatedWhen = DateTime.Now,
-                Name = "Ноготки",
-                Description = "ноготки",
-                Value = 300,
-                Currency = Currency.UAH,
-                WasteType = WasteType.OnceOnly,
-                Deleted = false
-            });
+            //Costs.Add(new Costs("YouTube", "ютуб", 6,Currency.USD,WasteType.Subscription,user.Id));
+            //Costs.Add(new Costs("Dezzer", "дизер", 6,Currency.USD,WasteType.Subscription,user.Id));
+            //Costs.Add(new Costs("Сильпо", "продукты",550,Currency.UAH,WasteType.OnceOnly,user.Id));
+            //Costs.Add(new Costs("Ноготки", "ноготки", 300,Currency.UAH,WasteType.OnceOnly,user.Id));
 
-            Salary.AddAsync(new Salary("ZP", "месячная зарплата", 1000, Currency.USD, SalaryType.Fixed, user.Id));
-            Salary.AddAsync(new Salary("Parser", "оплата за проект", 3000, Currency.UAH, SalaryType.OnceOnly, user.Id));
+            //Salary.AddAsync(new Salary("ZP", "месячная зарплата", 1000, Currency.USD, SalaryType.Fixed, user.Id));
+            //Salary.AddAsync(new Salary("Parser", "оплата за проект", 3000, Currency.UAH, SalaryType.OnceOnly, user.Id));
 
             SaveChanges();
         }

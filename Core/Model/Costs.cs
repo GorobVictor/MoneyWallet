@@ -1,5 +1,7 @@
 ﻿using Core.Model.Abstract;
+using Core.Model.Dto;
 using Core.Model.Enum;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 
@@ -11,45 +13,50 @@ namespace Core.Model
         {
         }
 
-        public Costs(string name, string description, double value, Currency currency, WasteType wasteType, int userId)
+        public Costs(Costs cost, GetSetCosts newCost, int userUpdated)
         {
-            Name = name;
-            Description = description;
-            Value = value;
-            Currency = currency;
-            WasteType = wasteType;
-
             var now = DateTime.Now;
 
-            CreatedBy = userId;
-            CreatedWhen = now;
-            UpdatedBy = userId;
+            Id = newCost.Id;
+            Name = newCost.Name;
+            Description = newCost.Description;
+            Value = newCost.Value;
+            Currency = newCost.Currency;
+            WasteType = newCost.WasteType;
+            UserId = newCost.UserId;
+            CreatedBy = cost != null ? cost.CreatedBy : userUpdated;
+            CreatedWhen = cost != null ? cost.CreatedWhen : now;
+
+            UpdatedBy = userUpdated;
             UpdatedWhen = now;
         }
 
-        public Costs(Costs costs, int userId)
+        public Costs(GetSetCosts newCost, int userUpdated)
         {
-            Name = costs.Name;
-            Description = costs.Description;
-            Value = costs.Value;
-            Currency = costs.Currency;
-            WasteType = costs.WasteType;
+            var now = DateTime.Now;
 
-            CreatedBy = userId;
-            CreatedWhen = DateTime.Now;
-            UpdatedBy = userId;
-            UpdatedWhen = DateTime.Now;
+            Id = 0;
+            Name = newCost.Name;
+            Description = newCost.Description;
+            Value = newCost.Value;
+            Currency = newCost.Currency;
+            WasteType = newCost.WasteType;
+            UserId = newCost.UserId;
+            CreatedBy = userUpdated;
+            CreatedWhen = now;
+
+            UpdatedBy = userUpdated;
+            UpdatedWhen = now;
         }
 
-        [Description("Имя")]
         public string Name { get; set; }
-        [Description("Описание")]
         public string Description { get; set; }
-        [Description("Цена")]
         public double Value { get; set; }
-        [Description("Валюта")]
         public Currency Currency { get; set; }
-        [Description("Тип расраты")]
         public WasteType WasteType { get; set; }
+        [JsonIgnore]
+        public int UserId { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Core.Model.Dto;
+﻿using AutoMapper;
+using Core.Model;
+using Core.Model.Dto;
 using Core.Utils;
 using Entity.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -19,26 +21,34 @@ namespace WebApi.Controller
     public class SalaryController : ControllerBase
     {
         private ISalaryRepository SalaryRepository { get; set; }
-        public SalaryController(ISalaryRepository salaryRepository)
+        private IMapper Mapper { get; set; }
+
+        public SalaryController(
+            ISalaryRepository salaryRepository,
+            IMapper mapper
+            )
         {
             SalaryRepository = salaryRepository;
+            Mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var list = await SalaryRepository.GetSalaryAsync(this.GetUserId(), true);
-
-            var result = list.Select(x => 
-            new GetSalaryResult(x, CurrencyParser.Convert(x.Currency,x.User.Currency,x.Value))
-            ).ToArray();
-
-            return Ok(result);
+            return Ok(this.Mapper.Map<List<GetSetSalary>>(await SalaryRepository.GetSalaryAsync(this.GetUserId(), true)));
         }
         [HttpGet]
         [Route("getbydate")]
         public async Task<IActionResult> Get(DateTime? from, DateTime? to)
         {
-            return Ok(await SalaryRepository.GetSalaryByDateAsync(this.GetUserId(), from, to));
+            return Ok(this.Mapper.Map<List<GetSetSalary>>(await SalaryRepository.GetSalaryByDateAsync(this.GetUserId(), from, to, true)));
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> Update([FromBody] List<GetSetSalary> objects)
+        {
+            await SalaryRepository.UpdateSalaryAsync(objects, this.GetUserId());
+            return Ok();
         }
     }
 }

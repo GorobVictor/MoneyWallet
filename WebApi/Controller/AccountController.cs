@@ -97,7 +97,7 @@ namespace WebApi.Controller
         {
             var User = await UserRepository.GetUserByLoginAndPasswordAsync(user);
 
-            if (user != null)
+            if (User != null)
             {
                 var claims = new List<Claim>
                 {

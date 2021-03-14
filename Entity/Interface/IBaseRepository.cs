@@ -12,7 +12,8 @@ namespace Entity.Interface
     {
         Task<TEntity> AddAsync(TEntity entity);
         Task<List<TEntity>> AddAsync(List<TEntity> entity);
-        Task<TEntity> GetFirst(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate);
+        TEntity GetFirst(Expression<Func<TEntity, bool>> predicate);
         Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
         Task UpdateAsync(List<TEntity> entities);
     }

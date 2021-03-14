@@ -11,8 +11,11 @@
         <Grid Margin="0,0,0,0" VerticalAlignment="Top" Height="50" Background="#FF673AB7">
             <Label x:Name="labl_NameSurname" HorizontalAlignment="Left" Content="Name Surname" Margin="18,0,0,0" Foreground="#DDFFFFFF" FontSize="20"/>
             <Label x:Name="labl_Salary" HorizontalAlignment="Left" Content="ЗП: 800, разовая ЗП: 700" Margin="50,25,0,0" Foreground="#DDFFFFFF"/>
-            <Button x:Name="btn_Update" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" HorizontalAlignment="Right" Margin="10,10,20,0" VerticalAlignment="Top" Width="30" Height="30" Click="btn_Update_Click" Cursor="Hand">
+            <Button x:Name="btn_Update" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" HorizontalAlignment="Right" Margin="10,10,60,0" VerticalAlignment="Top" Width="30" Height="30" Click="btn_Update_Click" Cursor="Hand">
                 <materialDesign:PackIcon Kind="Refresh" />
+            </Button>
+            <Button x:Name="btn_Save" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" HorizontalAlignment="Right" Margin="10,10,20,0" VerticalAlignment="Top" Width="30" Height="30" Click="btn_Save_Click" Cursor="Hand">
+                <materialDesign:PackIcon Kind="ContentSave" />
             </Button>
         </Grid>
         <Grid Margin="150,50,0,0">
@@ -27,12 +30,17 @@
                         <DataGrid x:Name="grid_OnceOnly" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
                     </Grid>
                 </TabItem>
+                <TabItem x:Name="tab_Salary" Height="0">
+                    <Grid>
+                        <DataGrid x:Name="grid_Salary" AutoGeneratingColumn="OnAutoGeneratingColumn"/>
+                    </Grid>
+                </TabItem>
             </TabControl>
         </Grid>
         <Grid Margin="0,50,0,0" HorizontalAlignment="Left" Width="150">
             <Button x:Name="btn_Subscription" Content="Подписка" HorizontalAlignment="Stretch" Margin="10,10,10,0" VerticalAlignment="Top" Click="btn_Subscription_Click"/>
             <Button x:Name="btn_OnceOnly" Content="Разовая" HorizontalAlignment="Stretch" Margin="10,52,10,0" VerticalAlignment="Top" Click="btn_OnceOnly_Click"/>
-            <Button x:Name="btn_Save" Content="Сохранить" HorizontalAlignment="Stretch" Margin="10,94,10,0" VerticalAlignment="Top" Click="btn_Save_Click"/>
+            <Button x:Name="btn_Salary" Content="Зарплата" HorizontalAlignment="Stretch" Margin="10,94,10,0" VerticalAlignment="Top" Click="btn_Salary_Click"/>
         </Grid>
     </Grid>
 </Window>

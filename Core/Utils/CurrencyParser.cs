@@ -67,7 +67,7 @@ namespace Core.Utils
         private static void Set()
         {
             var restclient = new RestClient("https://minfin.com.ua/api");
-            var request = new RestRequest("currency/ratelist");
+            var request = new RestRequest("currency/ratelist?converter_type=midbank");
 
             var response = restclient.Execute(request);
 
@@ -81,7 +81,7 @@ namespace Core.Utils
         private static async Task SetAsync()
         {
             var restclient = new RestClient("https://minfin.com.ua/api");
-            var request = new RestRequest("currency/ratelist");
+            var request = new RestRequest("currency/ratelist?converter_type=midbank");
 
             var response = await restclient.ExecuteAsync(request);
 

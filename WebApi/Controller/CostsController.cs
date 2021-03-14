@@ -1,4 +1,6 @@
-﻿using Core.Model;
+﻿using AutoMapper;
+using Core.Model;
+using Core.Model.Dto;
 using Entity.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,31 +19,35 @@ namespace WebApi.Controller
     public class CostsController : ControllerBase
     {
         private ICostsRepository CostsRepository { get; set; }
+        private IMapper Mapper { get; set; }
         public CostsController(
-            ICostsRepository costs)
+            ICostsRepository costs,
+            IMapper mapper
+            )
         {
             CostsRepository = costs;
+            Mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await CostsRepository.GetCostsAsync(this.GetUserId()));
+            return Ok(this.Mapper.Map<List<GetSetCosts>>(await CostsRepository.GetCostsAsync(this.GetUserId())));
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add([FromBody] List<Costs> costs)
+        public async Task<IActionResult> Add([FromBody] List<GetSetCosts> costs)
         {
-            await CostsRepository.AddCostsAsync(costs);
+            await CostsRepository.AddCostsAsync(costs, this.GetUserId());
             return Ok();
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] List<Costs> costs)
+        public async Task<IActionResult> Update([FromBody] List<GetSetCosts> costs)
         {
-            await CostsRepository.UpdateCostsAsync(costs);
+            await CostsRepository.UpdateCostsAsync(costs, this.GetUserId());
             return Ok();
         }
     }

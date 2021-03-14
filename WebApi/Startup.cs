@@ -18,6 +18,9 @@ using System.Reflection;
 using Entity.Interface;
 using Entity.Controller;
 using Entity;
+using WebApi.Middleware;
+using AutoMapper;
+using Core.AutoMapper;
 
 namespace WebApi
 {
@@ -32,6 +35,10 @@ namespace WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
+            
+            services.AddAutoMapper(typeof(MapperProfile));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -105,6 +112,8 @@ namespace WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseMiddleware<ErrorMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

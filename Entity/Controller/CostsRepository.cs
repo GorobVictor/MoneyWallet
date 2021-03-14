@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Model.Dto;
+using System.Linq;
 
 namespace Entity.Controller
 {
@@ -20,12 +22,17 @@ namespace Entity.Controller
         {
             if (type != 0)
             {
-                return await GetAsync(x => x.CreatedBy == userId && x.WasteType == type);
+                return await GetAsync(x => x.UserId == userId && x.WasteType == type);
             }
             else
             {
-                return await GetAsync(x => x.CreatedBy == userId);
+                return await GetAsync(x => x.UserId == userId);
             }
+        }
+
+        public async Task UpdateCostsAsync(List<GetSetCosts> items, int userUpdated)
+        {
+            await UpdateAsync(items.Select(x => new Costs(GetFirst(y => y.Id == x.Id), x, userUpdated)).ToList());
         }
 
         public async Task UpdateCostsAsync(List<Costs> items)
@@ -33,9 +40,9 @@ namespace Entity.Controller
             await UpdateAsync(items);
         }
 
-        public async Task AddCostsAsync(List<Costs> items)
+        public async Task AddCostsAsync(List<GetSetCosts> items, int userUpdated)
         {
-            await AddAsync(items);
+            await AddAsync(items.Select(x => new Costs(x, userUpdated)).ToList());
         }
     }
 }
